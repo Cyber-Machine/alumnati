@@ -30,12 +30,12 @@ export const Nav = () => {
               </li> */}
               <li>
                 <a
-                  href="/Projects"
-                  aria-label="Projects"
-                  title="Projects"
+                  href="/Resources"
+                  aria-label="Resources"
+                  title="Resources"
                   class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
                 >
-                  Projects
+                  Resources
                 </a>
               </li>
             </ul>
@@ -179,12 +179,12 @@ export const Nav = () => {
                         </li>
                         <li>
                           <a
-                            href="/Projects"
-                            aria-label="Projects"
-                            title="Projects"
+                            href="/Resources"
+                            aria-label="Resources"
+                            title="Resources"
                             class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-blue-900"
                           >
-                            Projects
+                            Resources
                           </a>
                         </li>
                         <li>
