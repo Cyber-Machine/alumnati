@@ -61,7 +61,7 @@ export const Nav = () => {
                 <rect x="14" y="11" width="7" height="12" />
               </svg>
               <span class="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">
-                AlumLink
+                AlmaLink
               </span>
             </a>
             <ul class="flex items-center hidden space-x-8 lg:flex">
