@@ -15,9 +15,9 @@ export const Footer = () => {
           <div className="grid gap-16 row-gap-10 mb-8 lg:grid-cols-6">
             <div className="md:max-w-md lg:col-span-2">
               <a
-                href="/"
+                href="/Dashboard"
                 aria-label="Go home"
-                title="Company"
+                title="Alumnati"
                 className="inline-flex items-center"
               >
                 <svg
@@ -36,7 +36,7 @@ export const Footer = () => {
                   <rect x="14" y="11" width="7" height="12" />
                 </svg>
                 <span className="ml-2 text-xl font-bold tracking-wide text-gray-100 uppercase">
-                  Company
+                  Alumnati
                 </span>
               </a>
               <div className="mt-4 lg:max-w-sm">
@@ -53,7 +53,7 @@ export const Footer = () => {
             <div className="grid grid-cols-2 gap-5 row-gap-8 lg:col-span-4 md:grid-cols-4">
               <div>
                 <p className="font-semibold tracking-wide text-teal-accent-400">
-                  Category
+                  Alumni
                 </p>
                 <ul className="mt-2 space-y-2">
                   <li>
@@ -61,7 +61,7 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      News
+                      Department
                     </a>
                   </li>
                   <li>
@@ -69,7 +69,7 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      World
+                      Tech-Stack
                     </a>
                   </li>
                   <li>
@@ -77,7 +77,7 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      Games
+                      Research
                     </a>
                   </li>
                   <li>
@@ -85,14 +85,14 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      References
+                      Batch
                     </a>
                   </li>
                 </ul>
               </div>
               <div>
                 <p className="font-semibold tracking-wide text-teal-accent-400">
-                  Cherry
+                  Resources
                 </p>
                 <ul className="mt-2 space-y-2">
                   <li>
@@ -108,7 +108,7 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      eCommerce
+                      Android
                     </a>
                   </li>
                   <li>
@@ -116,7 +116,7 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      Business
+                      Machine Learning
                     </a>
                   </li>
                   <li>
@@ -124,7 +124,7 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      Entertainment
+                      DevOps
                     </a>
                   </li>
                   <li>
@@ -132,13 +132,13 @@ export const Footer = () => {
                       href="/"
                       className="transition-colors duration-300 text-deep-purple-50 hover:text-teal-accent-400"
                     >
-                      Portfolio
+                      Cyber-Security
                     </a>
                   </li>
                 </ul>
               </div>
               <div>
-                <p className="font-semibold tracking-wide text-teal-accent-400">
+                {/* <p className="font-semibold tracking-wide text-teal-accent-400">
                   Apples
                 </p>
                 <ul className="mt-2 space-y-2">
@@ -184,8 +184,8 @@ export const Footer = () => {
                   </li>
                 </ul>
               </div>
-              <div>
-                <p className="font-semibold tracking-wide text-teal-accent-400">
+              <div> */}
+                {/* <p className="font-semibold tracking-wide text-teal-accent-400">
                   Business
                 </p>
                 <ul className="mt-2 space-y-2">
@@ -221,7 +221,7 @@ export const Footer = () => {
                       Forum
                     </a>
                   </li>
-                </ul>
+                </ul> */}
               </div>
             </div>
           </div>
