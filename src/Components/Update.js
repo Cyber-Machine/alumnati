@@ -2,7 +2,7 @@ import { useState,useEffect } from "react";
 import {db} from "../Firebase";
 import {collection ,query, getDocs,where,limit,addDoc, updateDoc, doc, orderBy} from "firebase/firestore";
 
-export default function Update() {
+export const Update = () => {
     const ref= query(collection(db,"Alumni"), where("Name","==","Mandala Guru Akhil"));
     const [users,setUsers]=useState([]);
     useEffect(()=>{

@@ -3,7 +3,8 @@ import LoginPage from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
 import AlumniPage from './Pages/AlumniPage';
 import Resources from './Pages/Resources';
-import Update from './Components/Update';
+import UpdateP from './Pages/Update';
+import SignUp from './Pages/SignUp';
 function App() {
   return (
   <>
@@ -11,8 +12,9 @@ function App() {
     <Route exact path = "/" element = {<LoginPage/>} />
     <Route exact path = "/Dashboard" element = {<Dashboard/>} />
     <Route exact path = "/Alumni" element = {<AlumniPage/>} />
+    <Route exact path = "/SignUp" element = {<SignUp/>} />
     <Route exact path = "/Resources" element = {<Resources/>} />
-    <Route exact path ='/Update' element = {<Update/>}/>
+    <Route exact path ='/Update' element = {<UpdateP/>}/>
     </Routes>
   </>
   );
