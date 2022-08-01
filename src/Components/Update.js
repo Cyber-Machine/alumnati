@@ -1,9 +1,11 @@
 import { useState,useEffect } from "react";
 import {db} from "../Firebase";
 import {collection ,query, getDocs,where,limit,addDoc, updateDoc, doc, orderBy} from "firebase/firestore";
-
+import { useContext } from 'react';
+import { AuthContext } from "../Context/AuthContext";
 export const Update = () => {
-    const ref= query(collection(db,"Alumni"), where("Name","==","Mandala Guru Akhil"));
+    const {currentUser} = useContext(AuthContext);
+    const ref= query(collection(db,"Alumni"), where("uid","==",currentUser.uid));
     const [users,setUsers]=useState([]);
     useEffect(()=>{
         const getUsers=async()=>{
