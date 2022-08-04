@@ -1,4 +1,4 @@
-export default function BlogHeader() {
+export  function BlogHeader() {
     return (
         <>
         <div className="container mx-auto px-4 py-14 sm:px-6 xl:px-12">
