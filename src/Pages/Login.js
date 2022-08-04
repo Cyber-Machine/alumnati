@@ -1,4 +1,31 @@
+import { useState, useContext } from 'react';
+import {auth} from '../Firebase'
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../Context/AuthContext';
 export default function LoginPage(){
+
+    
+    // Email 
+    const [email, setemail] = useState("");
+    // Password
+    const [pass, setPass] = useState("");
+    // Navigate
+    const navigate = useNavigate()
+    // Dispatch
+    const {dispatch} = useContext(AuthContext);
+
+    // Handling Login
+    const handleLogin = (e) =>{
+        e.preventDefault();
+        signInWithEmailAndPassword(auth, email , pass).
+        then((userCredential) => {
+          // User is now Signed in
+            const user = userCredential.user;
+            dispatch({type:"LOGIN", payload:user});
+            navigate("/Dashboard");
+        })
+    }
     return(
       <>       
         
@@ -6,7 +33,7 @@ export default function LoginPage(){
         <div className="flex justify-center h-screen">
             <div className="hidden bg-cover lg:block lg:w-2/3 bg-[url(https://www.alumni.ox.ac.uk/sites/default/files/styles/listing_tile_text_displayed_image/public/alumni_group_network.png?itok=mdK0sHFb)] bg-white">
                 <div className="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
-                    <div>
+                    <div>   
                         <h2 className="text-4xl font-bold text-white shadow-black">AlmaLink</h2>
                         
                         <p className="max-w-xl mt-3 text-gray-300 shadow-black">Place to know and interact with Alumni.</p>
@@ -23,10 +50,11 @@ export default function LoginPage(){
                     </div>
 
                     <div className="mt-8">
-                        <form>
+                        <form onSubmit={handleLogin}>
                             <div>
                                 <label for="email" className="block mb-2 text-sm text-gray-600 dark:text-gray-200">Email Address</label>
-                                <input type="email" name="email" id="email" placeholder="example@example.com" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                                <input type="email" name="email" id="email" placeholder="example@example.com" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 required" 
+                                onChange={(e) => setemail(e.target.value)}/>
                             </div>
 
                             <div className="mt-6">
@@ -35,12 +63,15 @@ export default function LoginPage(){
                                     <a href="#" className="text-sm text-gray-400 focus:text-blue-500 hover:text-blue-500 hover:underline">Forgot password?</a>
                                 </div>
 
-                                <input type="password" name="password" id="password" placeholder="Your Password" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40" />
+                                <input type="password" name="password" id="password" placeholder="Your Password" className="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40 required" 
+                                onChange={(e) => setPass(e.target.value)}/>
                             </div>
 
                             <div className="mt-6">
                                 <button
-                                    className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50">
+                                    className="w-full px-4 py-2 tracking-wide text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-400 focus:outline-none focus:bg-blue-400 focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                                    type="submit"
+                                    >
                                     Sign in
                                 </button>
                             </div>

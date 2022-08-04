@@ -1,10 +1,12 @@
-import { useState , useEffect , Fragment } from "react";
-import { db , auth } from "../Firebase";
-import { collection , addDoc , setDoc , doc } from "firebase/firestore";
+import { useState , useEffect , Fragment, useContext } from "react";
+import { db , auth , storage} from "../Firebase";
+import { setDoc , doc } from "firebase/firestore";
+import {ref, uploadBytesResumable , getDownloadURL} from "firebase/storage";
 import { createUserWithEmailAndPassword , onAuthStateChanged } from "firebase/auth";
 import { Listbox , Transition } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-
+import { AuthContext } from "../Context/AuthContext";
+import { useNavigate } from 'react-router-dom';
 const department_options = [
 	{ name: 'AIML' },
 	{ name: 'CSE' },
@@ -16,7 +18,6 @@ const department_options = [
 
 export default function SignUp(){
 
-	const ref= collection(db,"Alumni");
     const [Name,setName]=useState("")
     const [Department,setDepartment]=useState(department_options[0]);
     const [soc,setSoc]=useState("");
@@ -25,23 +26,28 @@ export default function SignUp(){
     const [Domain,setDomain]=useState("");
     const [regemail,setRegemail]=useState("");
     const [regpass,setRegpass]=useState("");
-    const [user,setUser]=useState({});
-	const createUser = async () => {
-		await addDoc(ref, { Name: Name ,Department: Department, Domain:Domain , Github:soc ,Twitter:Twitter , LinkedIn:LinkedIn , email:regemail});
-  register();
-  
-	  };
+	const [image, setimage] = useState([]);
+	const [imageURL, setImageURL] = useState("");
+	const [per, setPerc] = useState(null);
+    const {dispatch} = useContext(AuthContext);
+	const navigate = useNavigate();
+	
 	  const register = async () => {
 		try {
-		  const user = await createUserWithEmailAndPassword(
+			await createUserWithEmailAndPassword(
 			auth,
 			regemail,
 			regpass
 		  ).then(credential=>{
 			if(credential && credential.user)
 			{
+				const uid = credential.user.uid;
 				setDoc(doc(db, "Alumni", credential.user.uid), {
-					Name: Name ,Department: Department, Domain:Domain , Github:soc ,Twitter:Twitter , LinkedIn:LinkedIn , email:regemail
+					Name: Name ,Department: Department['name'], Domain:Domain , Github:soc ,Twitter:Twitter , LinkedIn:LinkedIn , email:regemail , uid:uid , imageURL:imageURL
+				  }).then(()=>{
+							const user = credential.user;
+            				dispatch({type:"LOGIN", payload:user});
+            				navigate("/Dashboard");
 				  });
 			}
 		  }).catch(e => alert(e.message));
@@ -52,18 +58,57 @@ export default function SignUp(){
 	  };
 	  useEffect(() => {
 		onAuthStateChanged(auth, (currentUser) => {
-			setUser(currentUser);
+			console.log(currentUser.user);
 		});
-	
+		
 	}, []);
+	
+	useEffect(() => {
+	  const uploadFile =()=>{
+		const name = new Date().getTime() + image.name
+		const storageRef = ref(storage, `image/${name}`);
+		const uploadTask = uploadBytesResumable(storageRef, image);
+		uploadTask.on(
+		  "state_changed",
+		  (snapshot) => {
+			const progress =
+			  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+			console.log("Upload is " + progress + "% done");
+			setPerc(progress);
+			switch (snapshot.state) {
+			  case "paused":
+				console.log("Upload is paused");
+				break;
+			  case "running":
+				console.log("Upload is running");
+				break;
+			  default:
+				break;
+			}
+		  },
+		  (error) => {
+			console.log(error);
+		  },
+		  () => {
+			getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+			  setImageURL(downloadURL);
+			  console.log(imageURL);
+			});
+		  }
+		);
+		console.log(name);
+	  }
 
+	  image &&uploadFile();
+	}, [image])
+	
 	const handleSubmit = event => {
 		event.preventDefault();
 		 register();
 	  };
     return (
         <>
-         <div className="container mx-auto ">
+         <div className="container mx-auto">
 			<div className="flex justify-center px-6 my-12">
 				<div className="w-full  lg:w-11/12 flex">
 					<div
@@ -77,14 +122,35 @@ export default function SignUp(){
 										Name
 									</label>
 									<input
-										className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline "
 										id="firstName"
 										type="text"
 										placeholder="Name"
 										onChange={(event)=>{setName(event.target.value)}}
 										required/>
 							<div className="mb-4 mt-4 md:flex md:justify-between">
-								
+
+							<div className="flex justify-center">
+							<div className="mb-4 md:mr-2 md:mb-0">
+								<label for="formFile" className="block mb-2 text-sm font-bold text-gray-700">Upload photo</label>
+								<input className="form-control
+								block
+								w-full
+								px-3
+								py-1.5
+								text-base
+								font-normal
+								text-gray-700
+								bg-white bg-clip-padding
+								border border-solid border-gray-300
+								rounded
+								transition
+								ease-in-out
+								m-0
+								focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="formFile" onChange={(e)=>setimage(e.target.files[0])}/>
+							</div>
+							</div>
+
 							<div className="mb-4 md:mr-2 md:mb-0">
 								<label className="block mb-2 text-sm font-bold text-gray-700" for="lastName">
 								Department
@@ -148,7 +214,7 @@ export default function SignUp(){
 										Domain
 									</label>
 									<input
-										className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 										id="Domain"
 										type="text"
 										placeholder="Domain"
@@ -165,7 +231,7 @@ export default function SignUp(){
 									Email
 								</label>
 								<input
-									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 									id="email"
 									type="email"
 									placeholder="Email"
@@ -179,7 +245,7 @@ export default function SignUp(){
 									LinkedIn
 								</label>
 								<input
-									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 									id="LinkedIn"
 									type="LinkedIn"
 									placeholder="LinkedIn"
@@ -191,7 +257,7 @@ export default function SignUp(){
 									Twitter
 								</label>
 								<input
-									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 									id="twitter"
 									type="twitter"
 									placeholder="Twitter"
@@ -204,7 +270,7 @@ export default function SignUp(){
 									Github
 								</label>
 								<input
-									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+									className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 									id="Github"
 									type="Github"
 									placeholder="GitHub"
@@ -217,7 +283,7 @@ export default function SignUp(){
 										Password
 									</label>
 									<input
-										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 										id="password"
 										type="password"
 										placeholder="********"
@@ -230,7 +296,7 @@ export default function SignUp(){
 										Confirm Password
 									</label>
 									<input
-										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+										className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 										id="c_password"
 										type="password"
 										placeholder="********"
@@ -240,7 +306,7 @@ export default function SignUp(){
 							</div>
 							<div className="mb-6 text-center">
 								<button
-									className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+									className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-blue-500 focus:shadow-outline"
 									type="submit"
 								>
 									Register Account
