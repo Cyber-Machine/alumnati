@@ -1,7 +1,6 @@
-import { useState,useEffect } from "react";
+import { useState , useEffect , useContext} from "react";
 import {db} from "../Firebase";
-import {collection ,query, getDocs,where,limit,addDoc, updateDoc, doc, orderBy} from "firebase/firestore";
-import { useContext } from 'react';
+import {collection ,query, getDocs,where, updateDoc, doc} from "firebase/firestore";
 import { AuthContext } from "../Context/AuthContext";
 export const Update = () => {
     const {currentUser} = useContext(AuthContext);
