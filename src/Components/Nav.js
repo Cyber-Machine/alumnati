@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useState, useContext} from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Context/AuthContext";
 export const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
+    const {dispatch} = useContext(AuthContext);
+    const handleLogout = (e) => {
+      dispatch({type:"LOGOUT"});
+    }
+
     return (
       <div class="bg-gray-900">
         <div class="px-4 py-6 mx-auto lg:py-8 sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
@@ -76,14 +81,12 @@ export const Nav = () => {
                 </a>
               </li>
               <li>
-                <a
-                  href="/"
-                  aria-label="Sign in"
-                  title="Sign in"
-                  class="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
-                >
-                    <Link to="/">Sign in</Link>
-                </a>
+                <button
+                  className="font-medium tracking-wide text-gray-100 transition-colors duration-200 hover:text-teal-accent-400"
+                  onClick={handleLogout}
+                 >
+                  Sign out
+                </button>
               </li>
               {/* <li>
                 <a
@@ -198,14 +201,12 @@ export const Nav = () => {
                           </a>
                         </li>
                         <li>
-                          <a
-                            href="/"
-                            aria-label="Sign in"
-                            title="Sign in"
-                            class="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-blue-900"
+                          <button
+                            className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-blue-900"
+                            onClick={handleLogout}
                           >
-                            Sign in
-                          </a>
+                            Sign out
+                          </button>
                         </li>
                         {/* <li>
                           <a
