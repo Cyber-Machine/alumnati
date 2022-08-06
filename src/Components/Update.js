@@ -1,14 +1,15 @@
 import { useState , useEffect , useContext} from "react";
-import {db} from "../Firebase";
+import {db , storage} from "../Firebase";
 import {collection ,query, getDocs,where, updateDoc, doc} from "firebase/firestore";
 import { AuthContext } from "../Context/AuthContext";
+import {getStorage, ref, uploadBytes} from "firebase/storage";
 export const Update = () => {
     const {currentUser} = useContext(AuthContext);
-    const ref= query(collection(db,"Alumni"), where("uid","==",currentUser.uid));
     const [users,setUsers]=useState([]);
+    
     useEffect(()=>{
         const getUsers=async()=>{
-          const data=await getDocs(ref);
+          const data=await getDocs(query(collection(db,"Alumni"), where("uid","==",currentUser.uid)));
           setUsers(data.docs.map((doc)=>({...doc.data(),id:doc.id})));
         }
         getUsers();
@@ -17,6 +18,9 @@ export const Update = () => {
     const [dept,setDept]=useState(users.Department);
     const [domain,setDomain]=useState(users.Domain);
     const [github, setgithub] = useState(users.Github);
+    const [linkedin, setLinkedin] = useState(users.LinkedIn);
+    const [Twitter, setTwitter] = useState(users.Twitter);
+    const [email, setemail] = useState(users.email);
     const updateUser = async (id,Name,dept,domain,github,e) => {
         e.preventDefault();
         const userDoc = doc(db, "Alumni", id);
@@ -61,20 +65,30 @@ export const Update = () => {
                             
                             <div className='w-full md:w-full px-3 mb-6'>
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Name </label>
-                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setName(event.target.value)}} placeholder={user.Name} />
+                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setName(event.target.value)}} value={user.Name} />
                             </div>
                             <div className='w-full md:w-full px-3 mb-6'>
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Department</label>
-                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDept(event.target.value)}} placeholder={user.Department} />
+                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDept(event.target.value)}} value={user.Department} />
                             </div>
                             <div className="flex items-center justify-between mt-4">
                                 <div className='w-full md:w-1/2 px-3 mb-6'>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >GitHub</label>
-                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  onChange={(event)=>{setgithub(event.target.value)}} placeholder={user.Github}/>
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  onChange={(event)=>{setgithub(event.target.value)}} value={user.Github}/>
                                 </div>
                                 <div className='w-full md:w-1/2 px-3 mb-6'>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >LinkedIn</label>
-                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  />
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text' value={user.LinkedIn} onChange={(event) =>{setLinkedin(event.target.value)}} />
+                                </div>
+                            </div>
+                            <div className="flex items-center justify-between mt-4">
+                                <div className='w-full md:w-1/2 px-3 mb-6'>
+                                    <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Twitter</label>
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  onChange={(event)=>{setTwitter(event.target.value)}} value={user.Twitter}/>
+                                </div>
+                                <div className='w-full md:w-1/2 px-3 mb-6'>
+                                    <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Email</label>
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'value={user.email} onChange={(event) =>{setemail(event.target.value)}} />
                                 </div>
                             </div>
                             <div className='w-full md:w-full px-3 mb-6'>
@@ -83,7 +97,7 @@ export const Update = () => {
                             </div>
                             <div className='w-full md:w-full px-3 mb-6'>
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Domain</label>
-                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDomain(event.target.value)}} placeholder={user.Domain} />
+                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDomain(event.target.value)}} value={user.Domain} />
                             </div>
                             <div className="flex justify-end">
                                 <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit" onClick={(e)=>{updateUser(user.id,Name,dept,domain,github,e)}}>Save</button>
