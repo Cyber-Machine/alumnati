@@ -1,8 +1,9 @@
-function AlumniCard({Name , Designation , Company , Linkedin , Twitter , Github}) {
+function AlumniCard({Name , Designation , Company , Linkedin , Twitter , Github , ImageURL}) {
+    ImageURL = !ImageURL ? "https://bestgovjobs.com/wp-content/uploads/2022/02/mountains-6839521_640.jpg" : ImageURL;
     return (
         <>
          <div className="flex flex-col items-center p-8 transition-colors duration-200 transform cursor-pointer group hover:bg-blue-600 rounded-xl hover:-translate-y-7 ease-out hover:ease-in shadow-xl hover:shadow-2xl">
-                        <img className="object-cover w-32 h-32 rounded-full ring-4 ring-blue-400 group-hover:ring-white" src="https://bestgovjobs.com/wp-content/uploads/2022/02/mountains-6839521_640.jpg" alt="" />
+                        <img className="object-cover w-32 h-32 rounded-full ring-4 ring-blue-400 group-hover:ring-white" src={ImageURL} alt="" />
                         
                         <h1 className="mt-4 text-2xl font-semibold  capitalize text-black group-hover:text-white">{Name}</h1>
                         <span className="mt-2 mx-0 pb-2 px-2 bg-blue-400 group-hover:bg-white rounded-2xl ">
