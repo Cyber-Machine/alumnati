@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
 export default function AlumniList() {
+  // Checking if the content is loading
+  const [loading, setloading] = useState(false);
   // Store Firbase Data
   const [alumni , setAlumni] = useState([]);
   // Show data to the user
@@ -11,11 +13,17 @@ export default function AlumniList() {
   const getAlumni = async() => {
     const list = await getDocs(collection(db , "Alumni"));
     setAlumni(list.docs.map( (doc) => ({id:doc.id , ...doc.data()}) ));
-    setshow(alumni);
+    setloading(true);
   }
   useEffect(() => {
-    getAlumni();
+    getAlumni()
   }, [])
+
+  useEffect(() => {
+    setshow(alumni);
+    setloading(false);
+    console.log("1")
+  },[loading]);
 
   const HandleFilter = (e) => {
     setshow(alumni.filter( x => x.Department.includes(e.target.value)));
@@ -50,7 +58,11 @@ export default function AlumniList() {
         </div>
         <div className="grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4">
           {
-            show.map((a)=><AlumniCard Name={a.Name} Designation={a.Department} Company={a.Domain} Github={a.Github} Linkedin={a.Linkedin} Twitter={a.Twitter}/>)
+            loading ?
+            ( <div class="fixed top-0 right-0 h-screen w-screen z-50 flex justify-center items-center">
+                    <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+            </div> ) :
+            (show.map((a)=><AlumniCard Name={a.Name} Designation={a.Department} Company={a.Domain} Github={a.Github} Linkedin={a.LinkedIn} Twitter={a.Twitter} ImageURL={a.imageURL}/>))
           }
         </div>
         </div>
