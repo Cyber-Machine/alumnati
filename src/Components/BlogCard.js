@@ -1,9 +1,10 @@
-export  function BlogCard({Title , Desc , Tags}){
+export function BlogCard({Title , Desc , Tags , Link }){
+    const link = Link || '#'
     return(
         <>
         
             <div class="overflow-hidden shadow-lg rounded-lg h-90 w-60 md:w-80 cursor-pointer m-auto">
-                <a href="#" class="w-full block h-full">
+                <a href={link} class="w-full block h-full">
                     {/* <img alt="blog photo" src="" class="max-h-40 w-full object-cover"/> */}
                     <div class="bg-white w-full p-4">
                         <p class="text-indigo-500 text-md font-medium">

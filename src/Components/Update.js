@@ -65,16 +65,16 @@ export const Update = () => {
                             
                             <div className='w-full md:w-full px-3 mb-6'>
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Name </label>
-                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setName(event.target.value)}} value={user.Name} />
+                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setName(event.target.value)}} defaultValue={user.Name} />
                             </div>
                             <div className='w-full md:w-full px-3 mb-6'>
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Department</label>
-                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDept(event.target.value)}} value={user.Department} />
+                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDept(event.target.value)}} defaultValue={user.Department} />
                             </div>
                             <div className="flex items-center justify-between mt-4">
                                 <div className='w-full md:w-1/2 px-3 mb-6'>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >GitHub</label>
-                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  onChange={(event)=>{setgithub(event.target.value)}} value={user.Github}/>
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  onChange={(event)=>{setgithub(event.target.value)}} defaultValue={user.Github}/>
                                 </div>
                                 <div className='w-full md:w-1/2 px-3 mb-6'>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >LinkedIn</label>
@@ -84,11 +84,11 @@ export const Update = () => {
                             <div className="flex items-center justify-between mt-4">
                                 <div className='w-full md:w-1/2 px-3 mb-6'>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Twitter</label>
-                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  onChange={(event)=>{setTwitter(event.target.value)}} value={user.Twitter}/>
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  onChange={(event)=>{setTwitter(event.target.value)}} defaultValue={user.Twitter}/>
                                 </div>
                                 <div className='w-full md:w-1/2 px-3 mb-6'>
                                     <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2' >Email</label>
-                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'value={user.email} onChange={(event) =>{setemail(event.target.value)}} />
+                                    <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'defaultValue={user.email} onChange={(event) =>{setemail(event.target.value)}} />
                                 </div>
                             </div>
                             <div className='w-full md:w-full px-3 mb-6'>
@@ -97,7 +97,7 @@ export const Update = () => {
                             </div>
                             <div className='w-full md:w-full px-3 mb-6'>
                                 <label className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'>Domain</label>
-                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDomain(event.target.value)}} value={user.Domain} />
+                                <input className='appearance-none block w-full bg-white text-gray-700 border border-gray-400 shadow-inner rounded-md py-3 px-4 leading-tight focus:outline-none  focus:border-gray-500' type='text'  required onChange={(event)=>{setDomain(event.target.value)}} defaultValue={user.Domain} />
                             </div>
                             <div className="flex justify-end">
                                 <button className="appearance-none bg-gray-200 text-gray-900 px-2 py-1 shadow-sm border border-gray-400 rounded-md mr-3" type="submit" onClick={(e)=>{updateUser(user.id,Name,dept,domain,github,e)}}>Save</button>
