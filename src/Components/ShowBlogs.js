@@ -11,8 +11,7 @@ export  function ShowBlogs(){
       setBlogs(list.docs.map( (doc) => ({id:doc.id , ...doc.data()}) ));
     }
     useEffect(() => {
-        getBlogs()
-        console.log({blogs})
+        getBlogs();
     },[])
 
     return(
