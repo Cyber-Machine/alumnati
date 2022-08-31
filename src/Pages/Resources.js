@@ -5,9 +5,11 @@ import { BlogCard } from "../Components/BlogCard"
 import { useEffect, useState } from "react"
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
+import ProjectCard from "../Components/Portfolio/ProjectCard"
 
 export default function Resources(){
   const [blog, setBlog] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [showBlog, setShowBlog] = useState([]);
   const [option, setOption] = useState(true);
   const getBlog = async() => {
@@ -15,8 +17,13 @@ export default function Resources(){
     setBlog(list.docs.map( (doc) => ({id:doc.id , ...doc.data()}) ));
     setShowBlog(blog);
   }
+  const getProjects = async() =>{
+    const list = await getDocs(collection(db,"Projects"));
+    setProjects(list.docs.map((doc) => ({id:doc.id , ...doc.data()})));
+  }
   useEffect(() => {
     getBlog();
+    getProjects();
     console.log(showBlog);
   },[])
  
@@ -36,7 +43,7 @@ export default function Resources(){
         <div className="md:w-5/6 sm:w-full grid grid-cols-1 gap-8 mt-8 xl:mt-16 md:grid-cols-2 xl:grid-cols-4">
           {
             (option&&
-            blog.map((b)=><BlogCard Title={b.Title} Desc={b.Desc} Tags={b.Tags} Link={b.Link}/>) ) || <p>Projects</p>
+            blog.map((b)=><BlogCard Title={b.Title} Desc={b.Desc} Tags={b.Tags} Link={b.Link}/>) ) || projects.map((p)=> <ProjectCard Name={p.Title} Desc={p.Desc} Repo={p.Link} Demo={p.Demo}/>)
           }        
         </div>
         </div>
