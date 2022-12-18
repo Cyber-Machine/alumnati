@@ -1,7 +1,7 @@
 import AlumniCard from "./AlumniCard"
 import { useEffect, useState } from "react"
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../Firebase";
+import { db } from "../../Firebase";
 export default function AlumniList() {
   // Checking if the content is loading
   const [loading, setloading] = useState(false);

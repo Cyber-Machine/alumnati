@@ -1,6 +1,6 @@
 import { Nav } from "../Components/Nav"
-import { AddBlog } from "../Components/AddBlog"
-import { ShowBlogs } from "../Components/ShowBlogs"
+import { AddBlog } from "../Components/AddBlogs/AddBlog"
+import { ShowBlogs } from "../Components/AddBlogs/ShowBlogs"
 import { Footer } from "../Components/Footer"
 export default function AddBlogPage(){
     return(
