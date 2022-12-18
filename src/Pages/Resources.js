@@ -1,7 +1,7 @@
 import { Nav } from "../Components/Nav"
 import { Footer } from "../Components/Footer"
-import { BlogHeader } from "../Components/BlogHeader"
-import { BlogCard } from "../Components/BlogCard"
+import { BlogHeader } from "../Components/Resources/BlogHeader"
+import { BlogCard } from "../Components/Resources/BlogCard"
 import { useEffect, useState } from "react"
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../Firebase";
