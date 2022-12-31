@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {useLocation ,Navigate} from 'react-router-dom'
-import {collection ,query, getDocs,where, updateDoc, doc} from "firebase/firestore";
+import {collection ,query, getDocs,where} from "firebase/firestore";
 import { db } from '../Firebase';
 import { Nav } from '../Components/Nav'
 import { Footer } from '../Components/Footer'
@@ -22,7 +22,6 @@ function Portfolio() {
     
     const [res, setRes] = useState([]);
     const [Name,setName]=useState("")
-    const [dept,setDept]=useState("");
     const [domain,setDomain]=useState("");
     const [github, setgithub] = useState("");
     const [linkedin, setLinkedin] = useState("");
